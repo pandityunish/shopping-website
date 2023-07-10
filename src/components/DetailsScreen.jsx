@@ -83,7 +83,8 @@ export default function DetailsScreen() {
        images: data.images,
        rating: data.rating,
        price: data.price,
-       count:count
+       count:count,
+       isCart:false
        
     }})
      }}>
@@ -92,7 +93,9 @@ export default function DetailsScreen() {
       <button className='outline-none  border border-black rounded-3xl sm:w-40 w-32 text-xs font-medium h-10 mt-2  text-center '
       onClick={()=>{
         dispatch(addtoCart({name:data.name,description:data.description,price:data.price,rating:data.rating,images:data.images,count:count}));
-        toast.success("Product added to cart")
+        toast.success("Product added to cart",{
+          position:"bottom-right"
+        })
       }}
       >
         Add to Cart

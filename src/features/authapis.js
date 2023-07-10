@@ -87,7 +87,7 @@ export const getuser=async({email,setuserdata})=>{
           }
         if(res.status==200){
             const json=await res.json();
-            // console.log(json);
+            console.log(json);
             setuserdata(json)
       
         }
@@ -96,9 +96,41 @@ export const getuser=async({email,setuserdata})=>{
         toast.error("Something wrong")
     }
 }
-export const placeorder=async({fullname,phonenumber,address,landmark,province,city,area,products,totalprice,navigate})=>{
+export const getuserrole=async({email,navigate,setuserdata})=>{
+ 
     try {
-        console.log(fullname,phonenumber)
+        const res=await fetch("http://localhost:5000/auth/getuserdata",{
+            method:"POST",
+            // crossDomain: true,
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                
+              },
+              body: JSON.stringify({
+                email,
+              }),
+        });
+        
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+        if(res.status==200){
+            const json=await res.json();
+            setuserdata(json)
+           if(json.role==="user"){
+            navigate("/profile")
+           }
+      
+        }
+    } catch (e) {
+        console.log(e);
+        toast.error("Something wrong")
+    }
+}
+export const placeorder=async({fullname,phonenumber,address,landmark,province,city,area,products,totalprice,navigate,cartItems})=>{
+    try {
+      
         const res=await fetch("http://localhost:5000/postorder",
         {
             method:"POST",
@@ -108,19 +140,21 @@ export const placeorder=async({fullname,phonenumber,address,landmark,province,ci
                 
               },
             body:JSON.stringify({
-                fullname,phonenumber,address,landmark,province,city,area,products,totalprice
+                fullname,phonenumber,address,landmark,province,city,area,products,totalprice,isCompleted:false
             })
         }
         );
         // if (!res.ok) {
         //     throw new Error(`HTTP error! status:`);
         //   }
-          console.log((await res).body);
+        console.log(res)
         if(res.status==200){
             const json=await res.json();
             console.log(json);
            toast.success("Order Placed Succesfully");
-           navigate("/")
+           navigate("/");
+         cartItems=[];
+         cartItems.length=0;
       
         }
     } catch (e) {

@@ -5,6 +5,11 @@ import Login from "../layout/Login";
 import Register from "../layout/Register";
 import Profile from "../layout/Profile";
 import BuyNow from "../layout/BuyNow";
+import Favorites from "../layout/Favorites";
+import CategoryProduct from "../layout/CategoryProduct";
+import SearchPage from "../layout/SearchPage";
+import Dashboard from "../layout/Dashboard";
+import ProductEditPage from "../layout/dashboard/ProductEditPage";
 
 export const router=createBrowserRouter([
     {
@@ -36,6 +41,31 @@ export const router=createBrowserRouter([
         path:'/buynow',
         element:<BuyNow/>
         
-    }
+    },
+    {
+        path:'/favorites',
+        element:<Favorites/>
+        
+    },
+    {
+        path:'/category/:name',
+        element:<CategoryProduct/>
+        
+    },
+    {
+        path:'/search/:name',
+        element:<SearchPage/>
+        
+    },
+    {
+        path:'/dashboard',
+        element:<Dashboard/>
+        
+    },
+    {
+        path:'/editproduct',
+        element:<ProductEditPage/>
+        
+    },
 ])
 

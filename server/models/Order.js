@@ -34,6 +34,10 @@ const orderSchema=mongoose.Schema({
     totalprice:{
         type:Number,
         required:true
+    },
+    isCompleted:{
+        type:Boolean,
+        default:false
     }
 });
 

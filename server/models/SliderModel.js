@@ -1,6 +1,6 @@
 const mongoose=require("mongoose");
 
-const productSchema=mongoose.Schema({
+const sliderSchema=mongoose.Schema({
 
     name:{
         type:String,
@@ -27,8 +27,10 @@ const productSchema=mongoose.Schema({
             type:String
         }
     ]
-});
+},{
+    timestamps:true
+   });
 
-const Product=mongoose.model("Products",productSchema);
+const Slider=mongoose.model("Slider",sliderSchema);
 
-module.exports=Product;
+module.exports=Slider;

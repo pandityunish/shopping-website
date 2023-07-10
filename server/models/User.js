@@ -26,6 +26,10 @@ const userSchema=mongoose.Schema({
     mobilenumber:{
         type:String,
         default:0
+    },
+    role:{
+      type:String,
+      default:"user"
     }
 });
 

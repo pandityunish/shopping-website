@@ -6,7 +6,7 @@ const initalstate={
     isLoading:false,
 };
 
-export const getallproduct=createAsyncThunk('product',()=>{
+export const getallproduct=createAsyncThunk('product',async()=>{
     return fetch("http://localhost:5000/getproducts").then(resp=>resp.json()).catch((e)=>console.log(e))
 })
 

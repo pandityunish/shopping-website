@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React,{useEffect,useState} from 'react'
 import Slider from '../components/slider'
 import TitleHead from '../components/TitleHead'
 import { useSelector,useDispatch } from "react-redux";
@@ -10,6 +10,8 @@ import NavBar from '../components/NavBar';
 import { calculateTotals } from '../features/cartSlice';
 import { getallpopularProduct } from '../features/popularProductSlice';
 import JustForYouSection from '../components/JustForYouSection';
+import { getallSlider } from '../features/productapi';
+import Footer from '../components/Footer';
 export default function Home() {
   const {products,isLoading} =useSelector((store)=>store.products);
 const dispatch=useDispatch();
@@ -19,6 +21,10 @@ dispatch(getallproduct());
 dispatch(getallpopularProduct())
 dispatch(calculateTotals())
 
+}, [])
+const [slider, setslider] = useState([]);
+useEffect(() => {
+ getallSlider({setslider})
 }, [])
 if(isLoading){
   return (
@@ -37,11 +43,12 @@ if(isLoading){
   return (
     <div>
       <NavBar/>
-      <Slider/>
+    {slider.length==0?<div></div>:<Slider slider={slider}/>}  
       <TitleHead title="Popular Products"/>
       <ProductsSection/>
       <TitleHead title="Just For You"/>
       <JustForYouSection/>
+      <Footer/>
     </div>
   )
 }
