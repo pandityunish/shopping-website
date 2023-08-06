@@ -87,7 +87,9 @@ const searchFunction = (searchTerm) => {
                     
 
                     <p className='font-medium cursor-pointer'>Deals</p>
-                    <p className='font-medium cursor-pointer'>What's New</p>
+                    <p className='font-medium cursor-pointer' onClick={()=>{
+                        navigate("/myorder")
+                    }}>My Order</p>
                    <Link to="/favorites"><p className='font-medium cursor-pointer'>Favorites</p></Link> 
                 </div>
                 <div className='relative hidden lg:flex w-60 items-center'>
@@ -191,7 +193,7 @@ const searchFunction = (searchTerm) => {
                         href="#"
                         className="text-black hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                     >
-                        What's New
+                        My Orders
                     </a>
                     <a
                         href="#"

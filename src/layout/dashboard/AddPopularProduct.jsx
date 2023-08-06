@@ -4,24 +4,26 @@ import NavBar from '../../components/NavBar';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useNavigate } from 'react-router-dom';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import { deleteproduct, getallCategories, update, updateproductimage } from '../../features/productapi';
+import { getallCategories, postproduct, update } from '../../features/productapi';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { postpopularproduct } from '../../features/popularproductapi';
 
-export default function ProductEditPage() {
+export default function AddPopularProduct() {
   const navigate=useNavigate()
   const state = useLocation();
-  const [sides, setsides] = useState(state.state.sides);
-  const [productname, setproductname] = useState(state.state.product.name);
-  const [productdescription, setproductdescription] = useState(state.state.product.description)
-  const [productprice, setproductprice] = useState(state.state.product.price)
-  const [productimages, setproductimages] = useState(state.state.product.images);
-  const [category, setcategory] = useState(state.state.product.category)
+  const [sides, setsides] = useState("");
+  const [productname, setproductname] = useState("");
+  const [productdescription, setproductdescription] = useState("")
+  const [productprice, setproductprice] = useState("")
+  const [productimages, setproductimages] = useState("");
+  const [category, setcategory] = useState("")
   const [categories, setcategories] = useState([]);
+  const [rate, setrate] = useState("")
   const [isdropOpen, setisdropOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [present, setpresent] = useState(undefined);
   const [uploadedimage, setuploadedimage] = useState("")
-
+  const [allimages, setallimages] = useState([])
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setSelectedImage(URL.createObjectURL(file));
@@ -37,8 +39,9 @@ export default function ProductEditPage() {
     }).then(r => r.json());
     console.log(data);
     setuploadedimage(data.secure_url);
+    allimages.push(data.secure_url);
+    postpopularproduct({name:productname,description:productdescription,price:productprice,images:allimages,category:category,isRole:"admin",navigate:navigate,rating:rate})
 
-    updateproductimage({_id:state.state.product._id,image:data.secure_url,isRole:"admin"});
   }
   useEffect(() => {
     getallCategories({ setcategories });
@@ -67,23 +70,18 @@ export default function ProductEditPage() {
           }}> <h1 className='font-medium'>Orders</h1></div>
         </div>
         <div className='flex flex-col w-[70%]'>
-          <div className='flex justify-between items-center w-[100%]'>
-            <h1 className='font-bold text-2xl'>{state.state.product.name}</h1>
-            <button className='flex items-center w-32 h-8 justify-center outline-none border-none text-white bg-red-800 rounded-3xl' onClick={()=>{
-              deleteproduct({id:state.state.product._id,isRole:"admin",navigate:navigate})
-            }}>
-              Delete
-            </button>
-          </div>
+          <h1 className='font-bold text-2xl'>Create Product</h1>
           <p className='text-lg my-1 mt-4'>Product Name:</p>
           <input type="text" id='name' name='name' value={productname} onChange={(e) => setproductname(e.target.value)} className='w-80 h-10 border outline-none px-4   placeholder:items-center' placeholder='Product Name' />
           <p className='text-lg my-1 mt-4'>Product description:</p>
-          <textarea type="text" id='name' name='name' value={productdescription} onChange={(e) => setproductdescription(e.target.value)} className='w-80 h-28 border outline-none px-4   placeholder:items-center' placeholder='Product Name' />
+          <textarea type="text" id='name' name='name' value={productdescription} onChange={(e) => setproductdescription(e.target.value)} className='w-80 h-28 border outline-none px-4   placeholder:items-center' placeholder='Product Description' />
           <p className='text-lg my-1 mt-4'>Product Price:</p>
-          <input type="text" id='name' name='name' value={productprice} onChange={(e) => setproductprice(e.target.value)} className='w-80 h-10 border outline-none px-4   placeholder:items-center' placeholder='Product Name' />
+          <input type="text" id='name' name='name' value={productprice} onChange={(e) => setproductprice(e.target.value)} className='w-80 h-10 border outline-none px-4   placeholder:items-center' placeholder='Product Price' />
+          <p className='text-lg my-1 mt-4'>Rate:</p>
+          <input type="text" id='name' name='name' value={rate} onChange={(e) => setrate(e.target.value)} className='w-80 h-10 border outline-none px-4   placeholder:items-center' placeholder='Product Rate' />
           <p className='text-lg my-1 mt-4'>Category:</p>
           <div className='relative'>
-            <p className='font-medium cursor-pointer flex flex-row h-10 w-80 border border-gray-300 justify-between items-center px-4 ' onClick={() => setisdropOpen(!isdropOpen)}>{category} {isdropOpen === false ? (<ArrowDropDownIcon />) : (<ArrowDropUpIcon />)}</p>
+            <p className='font-medium cursor-pointer flex flex-row h-10 w-80 border border-gray-300 justify-between items-center px-4 ' onClick={() => setisdropOpen(!isdropOpen)}>{category} {isdropOpen === false ?  (<div>Category <ArrowDropDownIcon /></div> ) : (<ArrowDropUpIcon />)}</p>
             {isdropOpen && (<div className='absolute  w-80 mt-1 bg-white z-30 border border-gray-300 rounded-md shadow-sm transition duration-500 ease-in-out'>
               {categories.map((category) => {
                 return (
@@ -98,7 +96,7 @@ export default function ProductEditPage() {
           </div>
           <p className='text-lg my-1 mt-4'>Images:</p>
           <div className='flex gap-3 p-3'>
-            {productimages.map((image) => {
+            {/* {productimages.map((image) => {
               return <div className='relative'>
                 <img src={image} alt="" className=' h-28 border border-gray-300 p-2 object-cover' />
 
@@ -107,7 +105,7 @@ export default function ProductEditPage() {
                 setproductimages(updateimges);
                 }} className='cursor-pointer absolute top-1 right-1 z-10 ' />
               </div>
-            })}
+            })} */}
             {selectedImage && <div className='relative'>
               <img src={selectedImage} className=' h-28 border border-gray-300 p-2 object-cover' alt="Selected" />
               <CancelIcon onClick={()=>{
@@ -118,18 +116,18 @@ export default function ProductEditPage() {
           <input type='file' onChange={handleImageChange} accept='image/*' placeholder='Upload image' />
           <div className='flex justify-end mb-3'>
             <button className='flex items-center w-32 h-8 mt-8 justify-center outline-none border-none text-white bg-green-800 rounded-3xl ' onClick={() => {
+             
+            
               
-             if(uploadedimage===""){
-              uploadimage().then(()=>{
-              
-                update({_id:state.state.product._id,category:category,images:productimages,description:productdescription,isRole:"admin",name:productname,navigate,price:productprice})
+             if(selectedImage===null){
 
-               });
-
+             }else if(uploadedimage===null){
+               postpopularproduct({name:productname,description:productdescription,price:productprice,images:allimages,category:category,isRole:"admin",navigate:navigate,rating:rate})
              }else{
- update({_id:state.state.product._id,category:category,images:productimages,description:productdescription,isRole:"admin",name:productname,navigate,price:productprice})
+               uploadimage();
+            // console.log(category)
+
              }
-              
             }}>Save</button>
           </div>
 

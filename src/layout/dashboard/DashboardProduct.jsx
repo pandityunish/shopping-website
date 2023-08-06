@@ -14,7 +14,9 @@ useEffect(() => {
     <div className='flex flex-col'>
      <div className='flex justify-between items-center w-[100%]'>
         <h1 className='font-bold text-2xl'>Products</h1>
-        <button className='flex items-center w-32 h-8 justify-center outline-none border-none text-white bg-green-800 rounded-3xl'>
+        <button className='flex items-center w-32 h-8 justify-center outline-none border-none text-white bg-green-800 rounded-3xl' onClick={()=>{
+          navigate("/addproduct")
+        }}>
             Add Product
         </button>
      </div>

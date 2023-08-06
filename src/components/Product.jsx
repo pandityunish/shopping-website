@@ -31,7 +31,7 @@ const {favoriteItems} =useSelector((store)=>store.favorite);
             images,
             rating,
             price,
-           
+           category:product.category
         }})
      }}>
     <img src={images[0]} alt="" className='object-fill h-[100%] ' />

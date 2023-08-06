@@ -18,6 +18,15 @@ module.exports.postCategory=async(req,res)=>{
         res.status(500).json({mes:e.message})
     }
 }
+module.exports.deleteCategory=async(req,res)=>{
+    try {
+        const {id}=req.body;
+        let product=await Category.deleteOne({"_id":id});
+        res.json(product);
+    } catch (error) {
+        res.status(500).json({mes:e.message})
+    }
+}
 module.exports.getCategoryProduct=async(req,res)=>{
    try {
      const {name}=req.params;

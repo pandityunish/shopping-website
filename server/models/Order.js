@@ -6,6 +6,10 @@ const orderSchema=mongoose.Schema({
         type:String,
         required:true
     },
+    email:{
+        type:String,
+        required:true
+    },
     address:{
         type:String,
         required:true
@@ -39,7 +43,9 @@ const orderSchema=mongoose.Schema({
         type:Boolean,
         default:false
     }
-});
+},{
+    timestamps:true
+   });
 
 const Order= mongoose.model("Orders",orderSchema);
 

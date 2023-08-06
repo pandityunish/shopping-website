@@ -1,118 +1,7 @@
-import { getSlider, getallCategory, getordersapi } from "../routes/ApiRoutes";
-
-export const getallCategories=async({setcategories})=>{
-    try {
-        const res=await fetch(getallCategory,{
-            method:"GET",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-                
-              },
-              
-        });
-        // console.log(res);
-        if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-          }
-        if(res.status==200){
-            const json=await res.json();
-            // console.log(json);
-            setcategories(json)
-      
-        }
-    } catch (e) {
-        console.log(e);
-        toast.error("Something wrong")
-    }
-}
-export const getuserOrder=async({setOrder,email})=>{
-    try {
-        const res=await fetch("http://localhost:5000/getuserorder",{
-            method:"POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-                
-              },
-              body:JSON.stringify({
-                email
-            })
-              
-        },);
-        // console.log(res);
-        if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-          }
-        if(res.status==200){
-            const json=await res.json();
-            // console.log(json);
-            setOrder(json)
-      
-        }else{
-            toast.error("Something wrong")
-        }
-    } catch (e) {
-        console.log(e);
-        toast.error("Something wrong")
-    }
-}
-export const getallSlider=async({setslider})=>{
-    try {
-        const res=await fetch(getSlider,{
-            method:"GET",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-                
-              },
-              
-        });
-        // console.log(res);
-        if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-          }
-        if(res.status==200){
-            const json=await res.json();
-            // console.log(json);
-            setslider(json)
-      
-        }
-    } catch (e) {
-        console.log(e);
-        toast.error("Something wrong")
-    }
-}
-export const getallorders=async({setorders})=>{
-    try {
-        const res=await fetch(getordersapi,{
-            method:"GET",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-                
-              },
-              
-        });
-        // console.log(res);
-        if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-          }
-        if(res.status==200){
-            const json=await res.json();
-            // console.log(json);
-            setorders(json)
-      
-        }
-    } catch (e) {
-        console.log(e);
-        toast.error("Something wrong")
-    }
-}
-export const updateproductimage=async({_id,image,isRole})=>{
+export const updatepopularproductimage=async({_id,image})=>{
     try {
        
-        const res=await fetch("http://localhost:5000/updateimage",
+        const res=await fetch("http://localhost:5000/updatepopularimage",
         {
             method:"POST",
             headers: {
@@ -125,7 +14,7 @@ export const updateproductimage=async({_id,image,isRole})=>{
             })
         }
         );
-        
+        console.log(res.body);
      
       
         if(res.status==200){
@@ -139,10 +28,40 @@ export const updateproductimage=async({_id,image,isRole})=>{
         console.log(e);
     }
 }
-export const update=async({_id,name,description,price,images,category,navigate,isRole})=>{
+export const updateSliderimage=async({_id,image})=>{
+    try {
+       
+        const res=await fetch("http://localhost:5000/updatesliderimage",
+        {
+            method:"POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                
+              },
+            body:JSON.stringify({
+                _id,image
+            })
+        }
+        );
+        console.log(res.body);
+     
+      
+        if(res.status==200){
+            const json=await res.json();
+            console.log(json);
+           
+       
+      
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+export const updatepopularproduct=async({_id,name,description,price,images,category,navigate,isRole})=>{
     try {
       
-        const res=await fetch("http://localhost:5000/updateproduct",
+        const res=await fetch("http://localhost:5000/updatepopularproduct",
         {
             method:"POST",
             headers: {
@@ -156,7 +75,7 @@ export const update=async({_id,name,description,price,images,category,navigate,i
         }
         );
      
-      
+        console.log(res.body);
         if(res.status==200){
             const json=await res.json();
             console.log(json);
@@ -170,15 +89,46 @@ export const update=async({_id,name,description,price,images,category,navigate,i
         // toast.error("Something wrong")
     }
 }
-export const postproduct=async({name,description,price,images,category,navigate,rating,isRole})=>{
+export const editSlider=async({_id,name,description,price,images,category,navigate,})=>{
     try {
       
-        const res=await fetch("http://localhost:5000/postproduct",
+        const res=await fetch("http://localhost:5000/editslider",
         {
             method:"POST",
             headers: {
                 "Content-Type": "application/json",
+                Accept: "application/json",
                
+              },
+            body:JSON.stringify({
+                _id,name,description,price,images,category
+            })
+        }
+        );
+     
+        console.log(res.body);
+        if(res.status==200){
+            const json=await res.json();
+            console.log(json);
+        //    toast.success("Product Edit Succesfully");
+           navigate("/dashboard");
+       
+      
+        }
+    } catch (e) {
+        console.log(e);
+        // toast.error("Something wrong")
+    }
+}
+export const postpopularproduct=async({name,description,price,images,category,navigate,rating,isRole})=>{
+    try {
+      
+        const res=await fetch("http://localhost:5000/postpopularproduct",
+        {
+            method:"POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
                 "isRole":isRole
               },
             body:JSON.stringify({
@@ -186,7 +136,7 @@ export const postproduct=async({name,description,price,images,category,navigate,
             })
         }
         );
-     
+   
       
         if(res.status==200){
             const json=await res.json();
@@ -201,10 +151,10 @@ export const postproduct=async({name,description,price,images,category,navigate,
         // toast.error("Something wrong")
     }
 }
-export const deleteproduct=async({id,isRole,navigate})=>{
+export const deletepopularproduct=async({id,isRole,navigate})=>{
     try {
       
-        const res=await fetch("http://localhost:5000/deleteproduct",
+        const res=await fetch("http://localhost:5000/deletepopularproduct",
         {
             method:"POST",
             headers: {
@@ -218,6 +168,68 @@ export const deleteproduct=async({id,isRole,navigate})=>{
         }
         );
      
+      console.log(res.body)
+        if(res.status==200){
+            const json=await res.json();
+            console.log(json);
+        //    toast.success("Product Edit Succesfully");
+           navigate("/dashboard");
+       
+      
+        }
+    } catch (e) {
+        console.log(e);
+        // toast.error("Something wrong")
+    }
+}
+export const deletecategory=async({id,navigate})=>{
+    try {
+      
+        const res=await fetch("http://localhost:5000/deletecategory",
+        {
+            method:"POST",
+            headers: {
+                "Content-Type": "application/json",
+               
+               
+              },
+            body:JSON.stringify({
+               id
+            })
+        }
+        );
+     
+      console.log(res.body)
+        if(res.status==200){
+            const json=await res.json();
+            console.log(json);
+        //    toast.success("Product Edit Succesfully");
+           navigate("/dashboard");
+       
+      
+        }
+    } catch (e) {
+        console.log(e);
+        // toast.error("Something wrong")
+    }
+}
+export const postcategory=async({name,navigate})=>{
+    try {
+      
+        const res=await fetch("http://localhost:5000/postcategory",
+        {
+            method:"POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                
+              },
+            body:JSON.stringify({
+               name
+            })
+        }
+        );
+   
       
         if(res.status==200){
             const json=await res.json();

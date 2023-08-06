@@ -128,26 +128,26 @@ export const getuserrole=async({email,navigate,setuserdata})=>{
         toast.error("Something wrong")
     }
 }
-export const placeorder=async({fullname,phonenumber,address,landmark,province,city,area,products,totalprice,navigate,cartItems})=>{
+export const placeorder=async({fullname,phonenumber,address,landmark,province,city,area,products,totalprice,navigate,cartItems,email})=>{
     try {
-      
+      console.log(email)
         const res=await fetch("http://localhost:5000/postorder",
         {
             method:"POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json",
+              
                 
               },
             body:JSON.stringify({
-                fullname,phonenumber,address,landmark,province,city,area,products,totalprice,isCompleted:false
+                fullname,email,phonenumber,address,landmark,province,city,area,products,totalprice,isCompleted:false
             })
         }
         );
         // if (!res.ok) {
         //     throw new Error(`HTTP error! status:`);
         //   }
-        console.log(res)
+       
         if(res.status==200){
             const json=await res.json();
             console.log(json);
@@ -156,6 +156,8 @@ export const placeorder=async({fullname,phonenumber,address,landmark,province,ci
          cartItems=[];
          cartItems.length=0;
       
+        }else{
+            toast.error("Something wrong")
         }
     } catch (e) {
         console.log(e);

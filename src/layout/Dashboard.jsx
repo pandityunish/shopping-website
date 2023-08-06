@@ -45,7 +45,7 @@ export default function Dashboard() {
     </div>
     <div className='w-[70%]'>
       {
-        sides==="Products"?<DashboardProduct sides={sides}/>:sides==="Popular Products"?<DashPopularProduct/>:sides==="Sliders"?<DashSlider/>:sides==="Category"?<DashCategory/>:sides==="Orders"?<DashOrder/>:<div></div>
+        sides==="Products"?<DashboardProduct sides={sides}/>:sides==="Popular Products"?<DashPopularProduct sides={sides}/>:sides==="Sliders"?<DashSlider sides={sides}/>:sides==="Category"?<DashCategory sides={sides}/>:sides==="Orders"?<DashOrder/>:<div></div>
       }
     </div>
     </div>}

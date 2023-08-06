@@ -9,6 +9,8 @@ import { Modal } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { placeorder } from '../features/authapis';
 import { useSelector } from 'react-redux';
+import KhaltiCheckout from "khalti-checkout-web";
+
 export default function BuyNow() {
     const state=useLocation();
     const navigate=useNavigate();
@@ -18,26 +20,78 @@ export default function BuyNow() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [fullname, setfullname] = useState("");
+    const [inicatekhalti, setinicatekhalti] = useState(false)
     const [address, setaddress] = useState("");
     const [phonenumber, setphonenumber] = useState("");
+    const [transaction_pin, settransaction_pin] = useState("")
+    const [mobile, setmobile] = useState("")
     const [landmark, setlandmark] = useState("");
     const [province, setprovince] = useState("");
     const [city, setcity] = useState("");
     const [area, setarea] = useState("");
     console.log(fullname);
+    let config = {
+      "publicKey": "test_public_key_dc74e0fd57cb46cd93832aee0a507256",
+      "productIdentity": "1234567890",
+      "productName": "Drogon",
+      "productUrl": "http://gameofthrones.com/buy/Dragons",
+      "eventHandler": {
+        onSuccess (payload) {
+          if(state.state.isCart==false){
+      
+      console.log(state.state.category)
+      placeorder({
+        fullname,email,phonenumber,address,landmark,province,city,area,
+        products:[{
+        name:state.state.name,
+        description:state.state.description,
+        price:state.state.price,
+        images:state.state.images,
+        rating:state.state.rating,
+        category:state.state.category
+    
+      }],totalprice:state.state.price+charge,navigate,cartItems})
+     }else{
+      placeorder({
+        fullname,email,phonenumber,address,landmark,province,city,area,
+        products:cartItems,totalprice:totalamount+charge,navigate,cartItems});
+
+     }
+          console.log(payload);
+        },
+        // onError handler is optional
+        onError (error) {
+          // handle errors
+          console.log(error);
+        }
+      },
+      // one can set the order of payment options and also the payment options based on the order and items in the array
+      paymentPreference: [
+        "MOBILE_BANKING",
+        "KHALTI",
+        "EBANKING",
+        "CONNECT_IPS",
+        "SCT",
+      ],
+    };
+    let checkout = new KhaltiCheckout(config);
+
   return (
    
-    <>
+    <>s
 <NavBar/>
 <div className='lg:p-10 p-2 mt-10'>
+
     <div className='flex gap-7 flex-wrap'>
         <div className='flex flex-col lg:w-[60%] w-[100%] '>
+
 {fullname===""? <div className={`flex h-20  items-center cursor-pointer justify-center shadow-xl rounded-md`} onClick={
   handleOpen
 } >
     <AddIcon/>
    <p>Add Delivery Address</p>
 </div>:<div></div>}
+
 <Modal
         open={open}
         onClose={handleClose}
@@ -180,28 +234,19 @@ export default function BuyNow() {
 </div>
 <p className='text-sm text-gray-500  text-right'>All Tax Included</p>
 <button className='h-10 w-80 mt-5 ml-4 bg-green-800  text-white' onClick={()=>{
+   let email=localStorage.getItem("email");
+   if(email==null){
+
+   }else{
   if(fullname==""){
 
   }else{
-    if(state.state.isCart==false){
-      placeorder({
-        fullname,phonenumber,address,landmark,province,city,area,
-        products:[{
-        name:state.state.name,
-        description:state.state.description,
-        price:state.state.price,
-        images:state.state.images,
-        rating:state.state.rating,
+  // setinicatekhalti(true
+  console.log(state.state.isCart==false? state.state.price+charge:totalamount+charge)
+  checkout.show({amount: state.state.isCart==false? state.state.price+charge*100:totalamount+charge*100});
     
-      }],totalprice:state.state.price+charge,navigate,cartItems})
-     }else{
-      placeorder({
-        fullname,phonenumber,address,landmark,province,city,area,
-        products:cartItems,totalprice:totalamount+charge,navigate,cartItems});
-
-     }
   }
-
+   }
    
   }}>
       Place Order

@@ -6,7 +6,7 @@ export default function ProductsSection() {
   return (
     <div className='lg:mx-16 mx-0 flex overflow-x-auto'>
      {popularProducts.map((product,i)=>{
-        return <Product  description={product.description} images={product.images} name={product.name} price={product.price} rating={product.rating} key={i} product={product}/>
+        return <Product  description={product.description} images={product.images} name={product.name} price={product.price} rating={product.rating} key={i} product={product} />
      })}
     </div>
   )

@@ -4,10 +4,11 @@ import NavBar from '../../components/NavBar';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useNavigate } from 'react-router-dom';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import { deleteproduct, getallCategories, update, updateproductimage } from '../../features/productapi';
+import { deleteproduct, getallCategories, update } from '../../features/productapi';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { editSlider, updateSliderimage } from '../../features/popularproductapi';
 
-export default function ProductEditPage() {
+export default function SliderEditPage() {
   const navigate=useNavigate()
   const state = useLocation();
   const [sides, setsides] = useState(state.state.sides);
@@ -37,8 +38,8 @@ export default function ProductEditPage() {
     }).then(r => r.json());
     console.log(data);
     setuploadedimage(data.secure_url);
-
-    updateproductimage({_id:state.state.product._id,image:data.secure_url,isRole:"admin"});
+    
+    updateSliderimage({_id:state.state.product._id})
   }
   useEffect(() => {
     getallCategories({ setcategories });
@@ -119,16 +120,25 @@ export default function ProductEditPage() {
           <div className='flex justify-end mb-3'>
             <button className='flex items-center w-32 h-8 mt-8 justify-center outline-none border-none text-white bg-green-800 rounded-3xl ' onClick={() => {
               
-             if(uploadedimage===""){
-              uploadimage().then(()=>{
-              
-                update({_id:state.state.product._id,category:category,images:productimages,description:productdescription,isRole:"admin",name:productname,navigate,price:productprice})
+             if(selectedImage===null){
+              editSlider({_id:state.state.product._id,category:category,images:productimages,description:productdescription,isRole:"admin",name:productname,navigate,price:productprice})
 
-               });
+             }else 
+              if(uploadedimage===""){
+                uploadimage().then(()=>{
+                
+                  editSlider({_id:state.state.product._id,category:category,images:productimages,description:productdescription,isRole:"admin",name:productname,navigate,price:productprice})
+  
+                 });
+  
+               }else{
+   editSlider({_id:state.state.product._id,category:category,images:productimages,description:productdescription,isRole:"admin",name:productname,navigate,price:productprice})
+               }
 
-             }else{
- update({_id:state.state.product._id,category:category,images:productimages,description:productdescription,isRole:"admin",name:productname,navigate,price:productprice})
-             }
+
+//  console.log(productimages)
+//  update({_id:state.state.product._id,category:category,images:productimages,description:productdescription,isRole:"admin",name:productname,navigate,price:productprice})
+             
               
             }}>Save</button>
           </div>

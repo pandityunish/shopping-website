@@ -1,7 +1,8 @@
 import React,{useState,useEffect} from 'react'
 import { getallSlider } from '../../features/productapi';
-
-export default function DashSlider() {
+import { useNavigate } from 'react-router-dom';
+export default function DashSlider({sides}) {
+  const navigate=useNavigate();
     const [slider, setslider] = useState([]);
 useEffect(() => {
  getallSlider({setslider})
@@ -19,7 +20,9 @@ useEffect(() => {
       {slider.map((product,index)=>{
        return <div className='p-4 flex gap-1'>
            <p>{index+1}.</p>
-         <p className='text-blue-800 cursor-pointer hover:underline'> {product.name}</p> 
+         <p className='text-blue-800 cursor-pointer hover:underline' onClick={()=>{
+          navigate("/slidereditpage",{state:{sides:sides, product:product}})
+        }}> {product.name}</p> 
            
            </div>
       })}

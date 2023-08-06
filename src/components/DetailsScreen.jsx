@@ -84,8 +84,8 @@ export default function DetailsScreen() {
        rating: data.rating,
        price: data.price,
        count:count,
-       isCart:false
-       
+       isCart:false,
+       category:data.category
     }})
      }}>
         Buy Now
