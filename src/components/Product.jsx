@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useDispatch } from 'react-redux';
@@ -8,16 +8,24 @@ import { addtoCart } from '../features/cartSlice';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from 'react-redux';
 import { addtofavorite, removefromfavorite } from '../features/favoriteSlice';
+import { getproductRating } from '../features/productapi';
 
 
-export default function Product({name,description,rating,price,images,product}) {
+export default function Product({name,description,productRating,rating,price,images,product}) {
   const navigate=useNavigate();
   const dispatch=useDispatch();
+  const [productrating, setproductrating] = useState({overallRating:0})
+
     const stars = [];
 const {favoriteItems} =useSelector((store)=>store.favorite);
-  for (let i = 0; i < rating; i++) {
+  for (let i = 0; i < productrating.overallRating; i++) {
     stars.push(<span key={i}>★</span>);
   }
+  useEffect(() => {
+    getproductRating({productid:product._id,setproductrating})
+
+  }, [])
+  
   return (
     <div className='p-6'>
         <div className='relative flex'>
@@ -29,9 +37,11 @@ const {favoriteItems} =useSelector((store)=>store.favorite);
             name,
             description,
             images,
-            rating,
+            rating:productrating.overallRating,
             price,
-           category:product.category
+            id:product._id,
+           category:product.category,
+           productRating:productRating
         }})
      }}>
     <img src={images[0]} alt="" className='object-fill h-[100%] ' />
@@ -65,7 +75,7 @@ const {favoriteItems} =useSelector((store)=>store.favorite);
      {stars.map((star)=>{
         return <p className='px-[1px] text-green-700'>{star}</p>
      })}
-     <p className='px-1 text-xs pt-1 text-gray-500  '> ({rating})</p>
+     <p className='px-1 text-xs pt-1 text-gray-500  '> ({productrating.overallRating})</p>
      </div>
       <button className='outline-none  border border-black rounded-2xl w-24 text-xs font-medium h-7 mt-2 hover:bg-green-800 text-center hover:text-white' onClick={()=>{
         dispatch(addtoCart({name,description,price,rating,images,count:1,category:product.category}));

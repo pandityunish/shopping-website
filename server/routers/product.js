@@ -1,7 +1,7 @@
 const express=require("express");
 const Product = require("../models/Product");
 const PopularProduct = require("../models/PopularProduct");
-const { postProduct, postPopularProduct, getProduct, getPouplarProduct, getSlider, createSlider, searchProduct, updateProduct, updateimages, deleteproduct, updatePopularProduct, updatepopularimages, deletepopularproduct, editSlider, updateSliderImage } = require("../controller/productController");
+const { postProduct, postPopularProduct, getProduct, getPouplarProduct, getSlider, createSlider, searchProduct, updateProduct, updateimages, deleteproduct, updatePopularProduct, updatepopularimages, deletepopularproduct, editSlider, updateSliderImage, addtoRating, getoverallrating, addtoRatingProduct, getoverallratingProduct } = require("../controller/productController");
 const adminmiddleware = require("../middleware/adminmiddleware");
 
 const productRouter=express.Router();
@@ -21,7 +21,10 @@ productRouter.post("/deleteproduct",adminmiddleware,deleteproduct);
 productRouter.post("/updatepopularproduct",adminmiddleware,updatePopularProduct);
 productRouter.post("/updatepopularimage",adminmiddleware,updatepopularimages);
 productRouter.post("/deletepopularproduct",adminmiddleware,deletepopularproduct);
-
+productRouter.post("/postrating",addtoRating);
+productRouter.get("/getrating/:productId",getoverallrating);
+productRouter.post("/postratingproduct",addtoRatingProduct);
+productRouter.get("/getratingproduct/:productId",getoverallratingProduct);
 
 
 module.exports=productRouter;

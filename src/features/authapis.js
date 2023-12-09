@@ -27,6 +27,7 @@ export const loginuser=async({email,password,navigate})=>{
             console.log(json);
          localStorage.setItem("token",json.token);
          localStorage.setItem("email",json.user.email);
+      
         navigate("/")
         }
     } catch (e) {

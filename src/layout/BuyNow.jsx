@@ -29,17 +29,18 @@ export default function BuyNow() {
     const [province, setprovince] = useState("");
     const [city, setcity] = useState("");
     const [area, setarea] = useState("");
-    console.log(fullname);
+   
     let config = {
-      "publicKey": "test_public_key_dc74e0fd57cb46cd93832aee0a507256",
+      "publicKey": "test_public_key_e8d782299ca14ca0957d2d16657a088c",
       "productIdentity": "1234567890",
       "productName": "Drogon",
       "productUrl": "http://gameofthrones.com/buy/Dragons",
       "eventHandler": {
         onSuccess (payload) {
+          let email=localStorage.getItem("email");
           if(state.state.isCart==false){
       
-      console.log(state.state.category)
+      console.log(fullname,email,phonenumber,address,landmark,province,city,area)
       placeorder({
         fullname,email,phonenumber,address,landmark,province,city,area,
         products:[{

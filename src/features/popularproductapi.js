@@ -1,3 +1,6 @@
+import { toast } from 'react-toastify';
+
+
 export const updatepopularproductimage=async({_id,image})=>{
     try {
        
@@ -21,6 +24,42 @@ export const updatepopularproductimage=async({_id,image})=>{
             const json=await res.json();
             console.log(json);
            
+       
+      
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+export const postReview=async({product_id,userid,userimage,username,rating,review})=>{
+    try {
+       
+        const res=await fetch("http://localhost:5000/postrating",
+        {
+            method:"POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+            body:JSON.stringify({
+                
+                    "userid":userid,
+                    "username":username,
+                    "userimage":userimage,
+                    "product_id":product_id,
+                    "rating":rating,
+                    "review":review
+                  
+            })
+        }
+        );
+        console.log(res.body);
+     
+      
+        if(res.status==200){
+            const json=await res.json();
+            console.log(json);
+           toast.success("Your Review Added Successfully")
        
       
         }

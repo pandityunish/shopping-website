@@ -26,6 +26,32 @@ export const getallCategories=async({setcategories})=>{
         toast.error("Something wrong")
     }
 }
+export const getproductRating=async({productid,setproductrating})=>{
+    try {
+        const res=await fetch(`http://localhost:5000/getrating/${productid}`,{
+            method:"GET",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                
+              },
+              
+        });
+        // console.log(res);
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+        if(res.status==200){
+            const json=await res.json();
+            console.log(json);
+            setproductrating(json)
+      
+        }
+    } catch (e) {
+        console.log(e);
+        toast.error("Something wrong")
+    }
+}
 export const getuserOrder=async({setOrder,email})=>{
     try {
         const res=await fetch("http://localhost:5000/getuserorder",{

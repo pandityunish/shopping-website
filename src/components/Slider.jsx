@@ -17,7 +17,7 @@ const navigate=useNavigate();
     }}
     >
         <div className='lg:p-14 p-8'>
-        <h1 className='font-bold md:text-4xl text-2xl text-green-800 font-sans'>Grab Upto 50% Off On <br /> Selected {slider[0].category} </h1>
+        <h1 className='font-bold md:text-4xl text-2xl text-green-800 font-sans'>Grab Upto 50% Off On <br />{slider[0].name} </h1>
         <button className='rounded-3xl shadow-md bg-green-800 border-none h-10 w-24 text-white text-sm mt-4'>Buy Now</button>
         </div>
         <div className='h-64 pr-[20%]'>

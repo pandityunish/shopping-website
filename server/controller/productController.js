@@ -1,5 +1,6 @@
 const PopularProduct = require("../models/PopularProduct");
 const Product = require("../models/Product");
+const ratingShema = require("../models/RatingModel");
 const Slider = require("../models/SliderModel");
 
 module.exports.postProduct=async(req,res)=>{
@@ -193,3 +194,79 @@ module.exports.updateimages=async(req,res)=>{
     }
 }
 
+module.exports.addtoRating=async(req,res)=>{
+    try {
+        const {userid,username,userimage,rating,review,product_id}=req.body;
+        let product=await PopularProduct.findById(product_id);
+        let newrating= {
+            userid,username,userimage,rating,review
+        }
+        product.productRating.push(newrating);
+        await product.save();
+        res.status(200).json(product)
+    } catch (e) {
+        res.status(401).json({mes:e.message})
+    }
+}
+module.exports.addtoRatingProduct=async(req,res)=>{
+    try {
+        const {userid,username,userimage,rating,review,product_id}=req.body;
+        let product=await Product.findById(product_id);
+        let newrating= {
+            userid,username,userimage,rating,review
+        }
+        product.productRating.push(newrating);
+        await product.save();
+        res.status(200).json(product)
+    } catch (e) {
+        res.status(401).json({mes:e.message})
+    }
+}
+module.exports.getoverallrating=async(req,res)=>{
+    try {
+        const { productId } = req.params;
+    console.log(productId);
+        const product = await PopularProduct.findById(productId);
+    
+        if (!product) {
+          return res.status(404).json({ error: 'Product not found' });
+        }
+    
+        const totalRatings = product.productRating.length;
+        if (totalRatings === 0) {
+          return res.json({ overallRating: 0 });
+        }
+    
+        const sumOfRatings = product.productRating.reduce((sum, rating) => sum + rating.rating, 0);
+        const overallRating = sumOfRatings / totalRatings;
+    
+        res.json({ overallRating });
+      } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+}
+module.exports.getoverallratingProduct=async(req,res)=>{
+    try {
+        const { productId } = req.params;
+    console.log(productId);
+        const product = await Product.findById(productId);
+    
+        if (!product) {
+          return res.status(404).json({ error: 'Product not found' });
+        }
+    
+        const totalRatings = product.productRating.length;
+        if (totalRatings === 0) {
+          return res.json({ overallRating: 0 });
+        }
+    
+        const sumOfRatings = product.productRating.reduce((sum, rating) => sum + rating.rating, 0);
+        const overallRating = sumOfRatings / totalRatings;
+    
+        res.json({ overallRating });
+      } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+}

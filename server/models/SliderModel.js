@@ -1,4 +1,5 @@
 const mongoose=require("mongoose");
+const ratingShema = require("./RatingModel");
 
 const sliderSchema=mongoose.Schema({
 
@@ -22,6 +23,8 @@ const sliderSchema=mongoose.Schema({
         type:String,
         required:true
     },
+    productRating:[ratingShema],
+
     images:[
         {
             type:String
